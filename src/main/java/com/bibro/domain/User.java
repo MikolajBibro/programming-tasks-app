@@ -26,6 +26,12 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private List<Task> taskList = new ArrayList<>();
 
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     public User saveWork(UserCode userCode) {
         codeList.add(userCode);
         return this;
