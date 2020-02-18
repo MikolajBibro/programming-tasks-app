@@ -23,8 +23,6 @@ public class User {
     private String password;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private List<UserCode> codeList = new ArrayList<>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    private List<Task> taskList = new ArrayList<>();
 
     public User(String username, String email, String password) {
         this.username = username;

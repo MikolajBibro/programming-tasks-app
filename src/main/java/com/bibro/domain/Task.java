@@ -21,12 +21,8 @@ public class Task {
     private String description;
     private String input;
     private String output;
-    @ManyToOne
-    @JsonIgnore
-    private User user;
 
-    public Task(User user, String task, String description, String input, String output) {
-        this.user = user;
+    public Task( String task, String description, String input, String output) {
         this.task = task;
         this.description = description;
         this.input = input;
