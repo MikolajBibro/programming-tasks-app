@@ -1,5 +1,6 @@
 package com.bibro.service;
 
+import com.bibro.domain.Language;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Frame;
@@ -22,22 +23,21 @@ public class DockerService {
         this.dockerClient = dockerClient;
     }
 
-    public CreateContainerResponse createContainer(String imageName) {
-        String image = getDockerImage(imageName);
-        return dockerClient.createContainerCmd(image).exec();
-    }
-
-    public void startContainer(String id) {
-        dockerClient.startContainerCmd(id).exec();
-    }
-
-    public String getDockerImage(String filename) {
+    public String createImage(String filename, Language language) {
         return dockerClient.buildImageCmd()
-                .withDockerfile(new File("C:\\Users\\Mikolaj\\Desktop\\new\\Dockerfile"))
+                .withDockerfile(new File(language.getDockerfile()))
                 .withBuildArg( "filename", filename)
                 .withNoCache(true)
                 .exec(new BuildImageResultCallback())
                 .awaitImageId();
+    }
+
+    public CreateContainerResponse createContainer(String image, String input) {
+        return dockerClient.createContainerCmd(image).withEnv("INPUT=" + input).exec();
+    }
+
+    public void startContainer(String containerId) {
+        dockerClient.startContainerCmd(containerId).exec();
     }
 
     public void waitForResult(String containerId) throws InterruptedException {
@@ -56,7 +56,7 @@ public class DockerService {
         dockerClient.logContainerCmd(containerId).withStdOut(true).withStdErr(true).exec(new LogContainerResultCallback() {
             @Override
             public void onNext(Frame item) {
-                logs.add(item.toString());
+                logs.add(item.toString().replaceAll("STDOUT: ", ""));
             }
         }).awaitCompletion();
 

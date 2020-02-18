@@ -1,22 +1,25 @@
 package com.bibro.service;
 
-import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.bibro.domain.Language;
+import io.vavr.control.Try;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@AllArgsConstructor
 @Service
 public class TaskExecutorService {
 
     private DockerService dockerService;
 
-    public TaskExecutorService(DockerService dockerService) {
-        this.dockerService = dockerService;
+    public String executeProgram(String filename, String input, Language language) {
+        return Try.of(() -> (tryExecuteProgram(filename, input, language))).get();
     }
 
-    public void executeUserCode(String imageName) throws InterruptedException {
-        CreateContainerResponse container = dockerService.createContainer(imageName);
-        dockerService.startContainer(container.getId());
-        dockerService.waitForResult(container.getId());
-        dockerService.getDockerStdOutput(container.getId());
+    public String tryExecuteProgram(String filename, String input, Language language) throws InterruptedException {
+        String image = dockerService.createImage(filename, language);
+        String containerId = dockerService.createContainer(image, input).getId();
+        dockerService.startContainer(containerId);
+        dockerService.waitForResult(containerId);
+        return dockerService.getDockerStdOutput(containerId);
     }
 }
