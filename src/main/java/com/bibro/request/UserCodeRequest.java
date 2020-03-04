@@ -1,6 +1,6 @@
 package com.bibro.request;
 
-import com.bibro.domain.Language;
+import com.bibro.domain.task.Language;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +19,11 @@ public class UserCodeRequest {
     @NotNull
     private Language language;
     @NotNull
-    private int taskId;
+    private String task;
+    @NotNull
+    private String startTime;
+    @NotNull
+    private String endTime;
+
+
 }

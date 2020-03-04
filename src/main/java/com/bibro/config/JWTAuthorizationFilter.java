@@ -33,12 +33,13 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String header = request.getHeader(HEADER_STRING);
-
-        System.out.println(header + "d11111sdssd");
+//        response.setHeader("Access-Control-Allow-Origin","http://localhost:3000");
+//        response.addHeader("Access-Control-Allow-Credentials","true");
         if (header == null || !header.startsWith(TOKEN_PREFIX)) {
             chain.doFilter(request, response);
             return;
         }
+
 
         UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
 
@@ -48,7 +49,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
-        System.out.println(token + "dsdssd");
         if (token != null) {
             DecodedJWT decoded = JWT.require(Algorithm.HMAC256(SECRET.getBytes()))
                     .build()
@@ -60,4 +60,5 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         }
         return null;
     }
+
 }

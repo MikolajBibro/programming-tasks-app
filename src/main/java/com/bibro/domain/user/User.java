@@ -1,4 +1,4 @@
-package com.bibro.domain;
+package com.bibro.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,17 +21,15 @@ public class User {
     private String username;
     private String email;
     private String password;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private boolean enabled;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<UserCode> codeList = new ArrayList<>();
 
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.enabled = false;
     }
 
-    public User saveWork(UserCode userCode) {
-        codeList.add(userCode);
-        return this;
-    }
 }

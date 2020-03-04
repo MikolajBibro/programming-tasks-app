@@ -1,4 +1,4 @@
-package com.bibro.domain;
+package com.bibro.domain.task;
 
 import lombok.Getter;
 

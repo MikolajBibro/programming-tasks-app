@@ -29,6 +29,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
+            System.out.println("ok");
             UserCredentials credentials = new ObjectMapper().readValue(request.getInputStream(), UserCredentials.class);
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword(), new ArrayList<>()));
         } catch (IOException e) {
@@ -43,8 +44,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(Algorithm.HMAC256(SECRET.getBytes()));
         response.addHeader("Access-Control-Expose-Headers","Authorization");
-
         response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
-        System.out.println(token + "dadadas");
     }
 }

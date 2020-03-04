@@ -1,6 +1,6 @@
 package com.bibro.service;
 
-import com.bibro.domain.Language;
+import com.bibro.domain.task.Language;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Frame;

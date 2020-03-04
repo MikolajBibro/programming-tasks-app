@@ -1,22 +1,31 @@
 package com.bibro.service;
 
-import com.bibro.domain.Task;
-import com.bibro.domain.User;
-import com.bibro.repository.UserRepository;
+import com.bibro.domain.task.Task;
+import com.bibro.domain.task.TaskOnTime;
+import com.bibro.domain.task.TaskType;
 import com.bibro.request.TaskRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
 
 @AllArgsConstructor
 @Service
 public class TaskService {
 
-    private UserRepository userRepository;
+    public Task createTaskFromRequest(TaskRequest taskRequest) {
+        TaskType type = taskRequest.getType();
+        String description = taskRequest.getDescription();
+        String input = taskRequest.getInput();
+        String output = taskRequest.getOutput();
+        String task = taskRequest.getTask();
+        int timeForTask = taskRequest.getTimeForTask();
 
-    public Task createTaskFromRequest(String username, TaskRequest taskRequest) {
-        User user = userRepository.findByUsername(username).orElseThrow(NoSuchElementException::new);
-        return new Task(user, taskRequest.getDescription(), taskRequest.getInput(), taskRequest.getOutput(), taskRequest.getTask());
+        switch (type) {
+            case Task:
+                return new Task(task, type, description, input, output);
+            case TaskOnTime:
+                return new TaskOnTime(task, type, description, input, output, timeForTask);
+            default:
+                return null;
+        }
     }
 }
