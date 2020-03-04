@@ -1,9 +1,7 @@
 package com.bibro.service;
 
-import com.bibro.domain.task.Challenge;
 import com.bibro.domain.task.Language;
 import com.bibro.domain.task.Task;
-import com.bibro.domain.task.TaskOnTime;
 import com.bibro.domain.user.User;
 import com.bibro.domain.user.UserCode;
 import com.bibro.repository.ChallengeRepository;
@@ -13,7 +11,6 @@ import com.bibro.request.UserCodeRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @Service
