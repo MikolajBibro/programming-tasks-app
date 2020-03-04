@@ -49,15 +49,16 @@ public class TaskController {
         taskRepository.save(task);
     }
 
-    @GetMapping(value = "/tasks/{name}")
+    @GetMapping(value = "/standard-tasks/{name}")
     public Task getTask(@PathVariable("name") String name) {
-        return taskRepository.findByTask(name).orElseThrow(NoSuchElementException::new);
+        return taskRepository.findByTaskAndType(name, TaskType.Task).orElseThrow(NoSuchElementException::new);
     }
 
     @PostMapping(value = "/challenge-on-time")
-    public void startChallengeOnTime(Principal principal, @RequestBody ChallengeOnTimeRequest challengeOnTimeRequest) {
+    public Task startChallengeOnTime(Principal principal, @RequestBody ChallengeOnTimeRequest challengeOnTimeRequest) {
         Task task = taskRepository.findByTaskAndType(challengeOnTimeRequest.getTaskTitle(), TaskType.TaskOnTime).orElseThrow(NoSuchElementException::new);
         challengeService.initializeChallenge(principal.getName(), task);
+        return task;
     }
 
     @MessageMapping(value = "/submit")
