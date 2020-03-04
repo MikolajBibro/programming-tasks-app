@@ -4,7 +4,6 @@ import com.bibro.domain.task.Language;
 import com.bibro.domain.task.Task;
 import com.bibro.domain.user.User;
 import com.bibro.domain.user.UserCode;
-import com.bibro.repository.ChallengeRepository;
 import com.bibro.repository.TaskRepository;
 import com.bibro.repository.UserRepository;
 import com.bibro.request.UserCodeRequest;
@@ -18,7 +17,6 @@ import java.util.NoSuchElementException;
 public class UserCodeService {
 
     private UserRepository userRepository;
-    private ChallengeRepository challengeRepository;
     private TaskRepository taskRepository;
 
     public UserCode createUserCodeFromRequest(String username, UserCodeRequest userCodeRequest) {
