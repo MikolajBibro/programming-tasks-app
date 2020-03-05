@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 @AllArgsConstructor
 @Service
@@ -35,11 +39,10 @@ public class TaskExecutorService {
     }
 
     public String trySaveToFile(UserCode userCode) throws IOException {
-        String path = "C:\\Users\\Mikolaj\\Desktop\\new\\";
-        String filename = userCode.getUser().getUsername() + userCode.getTask() + userCode.getLanguage().getExtension();
-        BufferedWriter writer = new BufferedWriter(new FileWriter(path + filename, true));
-        writer.append(userCode.getCode());
-        writer.close();
+        String path = userCode.getLanguage().getDirectoryPath();
+        String filename = userCode.getUser().getUsername() + userCode.getTask().getTask() + userCode.getLanguage().getExtension();
+        Path filePath = Paths.get(path,filename);
+        Files.writeString(filePath, userCode.getCode(), StandardOpenOption.CREATE_NEW);
         return filename;
     }
 }
