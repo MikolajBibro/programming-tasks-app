@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum Language {
-    C(".c", "C:\\Users\\Mikolaj\\Desktop\\new\\Dockerfile", "C:\\Users\\Mikolaj\\Desktop\\new\\"),
-    JAVA(".java", "C:\\Users\\Mikolaj\\Desktop\\new\\Dockerfile", "C:\\Users\\Mikolaj\\Desktop\\new\\"),
-    PYTHON(".py", "C:\\Users\\Mikolaj\\Desktop\\new\\Dockerfile", "C:\\Users\\Mikolaj\\Desktop\\new\\");
+    C("extension", "dockerfile", "directoryPath"),
+    JAVA("extension", "dockerfile", "directoryPath"),
+    PYTHON("extension", "dockerfile", "directoryPath");
 
     private final String extension;
     private final String dockerfile;
