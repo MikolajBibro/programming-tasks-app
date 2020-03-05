@@ -17,6 +17,7 @@ import com.bibro.service.UserCodeService;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -61,13 +62,22 @@ public class TaskController {
         return task;
     }
 
-    @MessageMapping(value = "/submit")
-    @SendTo("/queue/reply")
-    public boolean submitAnswer(Principal principal, UserCodeRequest userCodeRequest) {
+    @MessageMapping(value = "/submit-standard-task-answer")
+    @SendToUser("/queue/standard-task")
+    public boolean submitStandardTaskAnswer(Principal principal, UserCodeRequest userCodeRequest) {
+        UserCode userCode = userCodeService.createUserCodeFromRequest(principal.getName(), userCodeRequest);
+        return submissionService.submit(userCode);
+    }
+
+    @MessageMapping(value = "/submit-task-on-time-answer")
+    @SendToUser("/queue/task-on-time")
+    public boolean submitTaskOnTimeAnswer(Principal principal, UserCodeRequest userCodeRequest) {
         UserCode userCode = userCodeService.createUserCodeFromRequest(principal.getName(), userCodeRequest);
         challengeService.finishChallenge(userCode);
         return submissionService.submit(userCode);
     }
+
+
 
     @GetMapping(value = "/languages")
     public List<String> getLanguages() {
