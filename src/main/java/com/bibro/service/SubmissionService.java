@@ -1,13 +1,13 @@
 package com.bibro.service;
 
-import com.bibro.domain.task.*;
+import com.bibro.domain.task.Challenge;
+import com.bibro.domain.task.TaskOnTime;
+import com.bibro.domain.task.TaskType;
 import com.bibro.domain.user.User;
 import com.bibro.domain.user.UserCode;
 import com.bibro.repository.ChallengeRepository;
 import com.bibro.repository.UserCodeRepository;
 import lombok.AllArgsConstructor;
-
-import org.joda.time.Period;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,7 +30,7 @@ public class SubmissionService {
         return false;
     }
 
-    public boolean isTaskSolvedProperly(UserCode userCode) {
+    private boolean isTaskSolvedProperly(UserCode userCode) {
         TaskType type = userCode.getTask().getType();
 
         switch (type) {
@@ -43,12 +43,12 @@ public class SubmissionService {
         }
     }
 
-    public boolean isAnswerCorrect(UserCode userCode) {
+    private boolean isAnswerCorrect(UserCode userCode) {
         String output = userCode.getOutputForTask();
         return taskExecutorService.executeProgram(userCode).equals(output);
     }
 
-    public boolean isDoneInRequiredTime(UserCode userCode) {
+    private boolean isDoneInRequiredTime(UserCode userCode) {
         TaskOnTime task = (TaskOnTime) userCode.getTask();
         User user = userCode.getUser();
         Challenge challenge = challengeRepository.findByTaskAndUser(task, user).orElseThrow(NoSuchElementException::new);
