@@ -19,13 +19,19 @@ public class UserService {
     private EmailService emailService;
     private BCryptPasswordEncoder passwordEncoder;
 
+    public User create(UserRequest userRequest) {
+        User user = createUserFromUserRequest(userRequest);
+        saveUser(user);
+        createAndSendRegistrationToken(user);
+        return user;
+    }
 
-    public User saveUser(User user) {
+    private User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    public User createUserFromUserRequest(UserRequest userRequest) {
+    private User createUserFromUserRequest(UserRequest userRequest) {
         return new User(userRequest.getUsername(), userRequest.getEmail(), userRequest.getPassword());
     }
 
@@ -36,7 +42,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public RegistrationToken createAndSendRegistrationToken(User user) {
+    private RegistrationToken createAndSendRegistrationToken(User user) {
         String token = RandomStringUtils.random(20, true, true);
         RegistrationToken registrationToken = new RegistrationToken(token, user);
         registrationTokenRepository.save(registrationToken);
