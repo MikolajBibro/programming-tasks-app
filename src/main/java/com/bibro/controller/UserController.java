@@ -16,9 +16,7 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public void addUser(@Valid @RequestBody UserRequest userRequest) {
-        User user = userService.createUserFromUserRequest(userRequest);
-        userService.saveUser(user);
-        userService.createAndSendRegistrationToken(user);
+        userService.create(userRequest);
     }
 
     @GetMapping("/confirm-registration")
