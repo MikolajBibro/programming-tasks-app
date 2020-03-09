@@ -1,4 +1,4 @@
-package com.bibro;
+package com.bibro.service;
 
 import com.bibro.domain.task.Language;
 import com.bibro.domain.task.Task;
