@@ -2,18 +2,15 @@ package com.bibro.domain.user;
 
 import com.bibro.domain.task.Language;
 import com.bibro.domain.task.Task;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "user_code")
 public class UserCode {
 
@@ -40,4 +37,5 @@ public class UserCode {
     }
 
     public String getOutputForTask() { return task.getOutput(); }
+
 }
